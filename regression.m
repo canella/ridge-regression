@@ -44,13 +44,14 @@ end
 
 #calulcate coefficients and draw regression function
 setenv("GNUTERM","")
-plot( x, y + mean_y, 'x' );
+#plot( x, y + mean_y, 'x' );
+plot( x, y, 'x' );
 hold on;	
 for i=1: +1: num_lambda
 	w = inv( D.' * D + lambda(i) * eye(3))* D.' * y;
 
 	#plot( x, g(x, w(1) + mean_y, w(2), w(3)) );
-	plot( x, g(x, w(1) + mean_y, w(2), w(3)) );
+	plot( x, g(x, w(1), w(2), w(3)) );
 	hold on;
 end
 
