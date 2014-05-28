@@ -2,14 +2,16 @@ x_min =    0;
 x_max =    9;
 x_cnt =   10;
 
+p_error = 0.05;
+
 lambda = [ 5, 10,20];
 num_lambda = 3;
-var = 50;
 
 #functions
 #====================================================
-function e = err ( var ) 
-	e = stdnormal_pdf(randi(4)-1)*var;
+function e = err ( var , p_error) 
+	p_error = p_error * 100
+	e = stdnormal_pdf(randi(p_error) / p_error * 10) * var
 endfunction
 
 function h = g (x, w0, w1, w2)  
@@ -27,7 +29,13 @@ x = linspace( x_min, x_max, x_cnt);
 #generating y values
 y = [];
 for i=1: +1: x_cnt
-	y = [y; f(x(i)) + err(var)]; #does randi need initializiation??
+	y = [y; f(x(i))];
+end
+
+#add variance
+variance = var(y)
+for i=1: +1: x_cnt
+	y(i) = y(i) + err(variance, p_error);
 end
 
 #centering y values
@@ -45,6 +53,9 @@ end
 #calulcate coefficients and draw regression function
 setenv("GNUTERM","")
 #plot( x, y + mean_y, 'x' );
+
+x
+y
 plot( x, y, 'x' );
 hold on;	
 for i=1: +1: num_lambda
