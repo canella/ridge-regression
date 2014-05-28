@@ -1,29 +1,57 @@
-#! octave-interpreter-name -qf
-# a sample Octave program
-load values;
-lambda = 5;
-x = linspace(0,9,10);
-variance = 500
-plot( x, y, 'o' )
-hold on;
+x_min =    0;
+x_max =    9;
+x_cnt =   10;
 
-y = y+stdnormal_pdf(randi(4)-1)*variance;
-expected_value = mean(y);
-y = y - expected_value;
+lambda = [ 5, 10,20];
+num_lambda = 3;
+var = 50;
 
-w = inv( D.' * D + lambda * eye(3))* D.' * y;
+#functions
+#====================================================
+function e = err ( var ) 
+	e = stdnormal_pdf(randi(4)-1)*var;
+endfunction
 
-w0 = w(1);
-w1 = w(2);
-w2 = w(3);
+function h = g (x, w0, w1, w2)  
+	h = w2*x.^2 + w1*x + w0; 
+endfunction
+
+function y = f (x)
+	y = x.^2 + 2*x + 2;
+endfunction
 
 
-function g (x, w0, w1, w2)  w2*x.^2 + w1*x + w0 endfunction
+#generating x values 
+x = linspace( x_min, x_max, x_cnt);
 
-function e ( x, v ) stdnormal_pdf(x)*v endfunction
+#generating y values
+y = [];
+for i=1: +1: x_cnt
+	y = [y; f(x(i)) + err(var)]; #does randi need initializiation??
+end
 
-plot( x, w2*x.^2 + w1*x +w0 + expected_value )
-hold on;
-plot( x, y + expected_value, 'x' )
+#centering y values
+mean_y = mean(y);
+#y = y - mean_y;
+
+
+#calulcate design matrix
+D = [];
+for i=1: +1: x_cnt
+	D = [D; 1 x(i) x(i).^2];
+end
+
+
+#calulcate coefficients and draw regression function
+setenv("GNUTERM","")
+plot( x, y + mean_y, 'x' );
+hold on;	
+for i=1: +1: num_lambda
+	w = inv( D.' * D + lambda(i) * eye(3))* D.' * y;
+
+	#plot( x, g(x, w(1) + mean_y, w(2), w(3)) );
+	plot( x, g(x, w(1) + mean_y, w(2), w(3)) );
+	hold on;
+end
 
 pause();
