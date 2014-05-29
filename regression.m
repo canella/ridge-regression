@@ -3,14 +3,14 @@
 #==================================================================
 x_min 	=    0;
 x_max	=    9;
-N	=   10;
+N	=   20;
 M	=    3;
 
 p_error =    0.15;
 
-lambda      = [ 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
-num_lambda  = 10;
-plot_lambda = [ 5, 50, 500 ];
+lambda      = [ 1, 2, 5, 10, 20, 50, 100];
+num_lambda  = 7;
+plot_lambda = [ 1, 10, 100 ];
 num_plot_lambda = 3;
 
 color_validation = [0 0 0];
@@ -126,13 +126,14 @@ end
 #==================================================================
 #output - textual
 #==================================================================
-printf("Trade-off optimization\n");
+printf("\n==================================================\n");
+printf("Regularization Optimization\n");
 printf("==================================================\n");
 idx_best = get_minimum_idx(lambda_error, num_lambda);
 for i=1: +1: num_lambda
 	printf("lambda value:\t%3d summed error:\t %3.2f", lambda(i), lambda_error(i))
 	if i == idx_best
-		printf(" <-- best trade-off\n");
+		printf(" <-- best regularization parameter\n");
 	else
 		printf("\n");
 	end
