@@ -1,69 +1,95 @@
-x_min =    0;
-x_max =    9;
-x_cnt =   10;
-
-p_error = 0.05;
-
-lambda = [ 5, 10,20];
+#==================================================================
+#defines
+#==================================================================
+x_min 	=    0;
+x_max	=    9;
+N	=   10;
+M	=    3;
+p_error =    0.15;
+lambda  = [ 5, 10,20];
 num_lambda = 3;
 
+
+#==================================================================
 #functions
-#====================================================
+#==================================================================
 function e = err ( var , p_error) 
-	p_error = p_error * 100
-	e = stdnormal_pdf(randi(p_error) / p_error * 10) * var
+   	var
+	p_error = p_error * 100.0
+	r = randi(p_error) 
+	e = stdnormal_pdf((100 - r) / 33.0) * var
 endfunction
 
-function h = g (x, w0, w1, w2)  
-	h = w2*x.^2 + w1*x + w0; 
+function h = g (x, w)  
+	h = w(3)*x.^2 + w(2)*x + w(1); 
 endfunction
 
 function y = f (x)
 	y = x.^2 + 2*x + 2;
 endfunction
 
+function d = get_dataset(s, n, N, M)
+	d = [];
+	for i=n: +M: N*M
+		d = [d s(i)];
+	end
+endfunction
 
-#generating x values 
-x = linspace( x_min, x_max, x_cnt);
+function s = get_random_signum() 
+	i = randi(2);
+	if i / 2 == 1	
+		s = 1
+	else
+		s = -1
+	end
+endfunction
 
-#generating y values
+
+#==================================================================
+#main
+#==================================================================
+#generating x values
+x = linspace( x_min, x_max, N*M);
+
+
+#generating dataset of size N*M
 y = [];
-for i=1: +1: x_cnt
-	y = [y; f(x(i))];
+for i=1: +1: N*M
+	y = [y f(x(i))];
 end
+
 
 #add variance
-variance = var(y)
-for i=1: +1: x_cnt
-	y(i) = y(i) + err(variance, p_error);
+variance = var(y);
+for i=1: +1: N*M
+	y(i) = y(i) + (err(variance, p_error) * get_random_signum()) ;
 end
-
-#centering y values
-mean_y = mean(y);
-#y = y - mean_y;
 
 
 #calulcate design matrix
 D = [];
-for i=1: +1: x_cnt
+for i=1: +1: N*M
 	D = [D; 1 x(i) x(i).^2];
 end
 
 
-#calulcate coefficients and draw regression function
-setenv("GNUTERM","")
-#plot( x, y + mean_y, 'x' );
-
-x
-y
-plot( x, y, 'x' );
-hold on;	
+#calculate and plot regression function
+w = [];
 for i=1: +1: num_lambda
-	w = inv( D.' * D + lambda(i) * eye(3))* D.' * y;
+	w = [w; (inv( D.' * D + lambda(i) * eye(3))* D.' * y.').'];
+end
 
-	#plot( x, g(x, w(1) + mean_y, w(2), w(3)) );
-	plot( x, g(x, w(1), w(2), w(3)) );
+
+#plot x/y points
+plot(x, y, 'x', 'color', [1 0 0]);
+hold on;
+
+for i=1: +1: num_lambda
+	plot( x, g(x, w(i, :)) );
 	hold on;
 end
+
+plot(x, f(x), 'color', [0 1 0]);
+
 
 pause();
