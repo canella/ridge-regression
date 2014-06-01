@@ -15,9 +15,7 @@ num_plot_lambda = 3;
 
 color_validation = [0 0 0];
 color_original   = [0 1 0];
-color_regression = [0 0 1];
-
-
+color_regression = ['r' 'm' 'c'];
 #==================================================================
 #functions
 #==================================================================
@@ -155,13 +153,15 @@ plot(t_x, f(t_x), 'color', color_original)
 hold on;
 
 d = calc_designmatrix(t_x, N*(M-1));
+
 for i=1: +1: num_plot_lambda
 	w = calc_regressioncoeffs(d, plot_lambda(i), t_y);
-	plot(t_x, g(t_x, w), 'color', color_regression)
+	plot(t_x, g(t_x, w), 'color', color_regression(i))
 	hold on;
 end
+legend( 'validation', 'original', int2str(plot_lambda(1)), int2str(plot_lambda(2)), int2str(plot_lambda(3)) );
 
-
+#print("test.jpg")
 
 
 
