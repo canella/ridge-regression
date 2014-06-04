@@ -28,7 +28,7 @@ function h = g (x, w)
 endfunction
 
 function y = f (x)
-	y = 3*x.^2 + 6*x + 2;
+	y = x.^2 + 2*x + 2;
 endfunction
 
 function d = calc_designmatrix(x, n)
@@ -176,6 +176,6 @@ hold off
 figure(2);
 semilogx( lambda, lambda_error )
 
-#print("log.jpg")
+#print("log_small_f.jpg")
 
 pause();
