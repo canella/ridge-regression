@@ -16,7 +16,7 @@
 
 
 \section{Algorithmic Choices}
-Our method does not substantially differ from the one discussed in class. We chose two non-linear functions, one is $f(x) = x^2 + 2x + 2$ and the other one is $g(x) = 6x^2 + 2x + 2$. We then determine our data sets by calculating $r^t(x) = f(x^t) + \epsilon$ (and $r^t(x) = g(x^t) + \epsilon$ respectively for $g(x)$), where $\epsilon$ is drawn from a standard uniform distribution with a random error selected between 0 and 15 weighted by the variance(for full information on calculation please see the octave script). The x-values are linear distributed between $x_min$ and $x_max$ \\
+Our method does not substantially differ from the one discussed in class. We chose two non-linear functions, one is $f(x) = x^2 + 2x + 2$ and the other one is $g(x) = 6x^2 + 2x + 2$. We then determine our data sets by calculating $r^t(x) = f(x^t) + \epsilon$ (and $r^t(x) = g(x^t) + \epsilon$ respectively for $g(x)$), where $\epsilon$ is drawn from a standard uniform distribution with a random error selected between 0 and 15 weighted by the variance(for full information on calculation please see the octave script). The x-values are linear distributed between $x_{min}$ and $x_{max}$ \\
 We calculate our design matrix and use the formula that has been introduced in the lecture and further determine the coefficients $w_i$ for the regression function  for each given value of $\lambda$ (to avoid biasing towards $w_0$ the y-values are centered). \\
 By using M-fold cross-validation we find the best $\lambda$ out of the chosen values.
 \pagebreak
@@ -47,8 +47,8 @@ By using M-fold cross-validation we find the best $\lambda$ out of the chosen va
 		\label{fig:small_f_plot}
 	\end{figure}
  
-As it is part of the task, we created a plot with $\lambda$ on the abscissa and the error on the ordinateas it can be seen in figures \ref{log_1} and \ref{log_2}. 
-In figures \ref{log_1} and \ref{log_2} we can see all the calculated errors for both functions with the best one being indicated.
+As it is part of the task, we created a plot with $\lambda$ on the abscissa and the error on the ordinate as it can be seen in figures \ref{log_1} and \ref{log_2}. 
+In figures \ref{clog_1} and \ref{clog_2} we can see all the calculated errors for both functions with the best one being indicated.
 
 	\begin{figure}
 		\centering
@@ -68,14 +68,14 @@ In figures \ref{log_1} and \ref{log_2} we can see all the calculated errors for 
 		\centering
 		\includegraphics[scale=0.7]{console_output_small_f}
 		\caption{ $\lambda$ and the error for $f(x) = x^2 + 2x + 2$}
-		\label{clog_2}
+		\label{clog_1}
 	\end{figure}
 
 	\begin{figure}
 		\centering
 		\includegraphics[scale=0.7]{console_output_big_f}
 		\caption{ $\lambda$ and the error for $g(x) = 3x^2 + 6x + 2$}
-		\label{clog_1}
+		\label{clog_2}
 	\end{figure}
 
 \section{Conclusion}
