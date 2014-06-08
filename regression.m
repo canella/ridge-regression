@@ -170,12 +170,12 @@ for i=1: +1: num_plot_lambda
 end
 legend( 'validation', 'original', int2str(plot_lambda(1)), int2str(plot_lambda(2)), int2str(plot_lambda(3)) );
 
-#print("plot.jpg")
+print("plot.jpg")
 
 hold off
 figure(2);
 semilogx( lambda, lambda_error )
 
-#print("log.jpg")
+print("log.jpg")
 
 pause();
